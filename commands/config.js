@@ -53,16 +53,19 @@ module.exports = {
     const fields = {
       tntAddr: {
         message: 'Ethereum (TNT) address:',
-        validate: validateETHAddress
+        validate: validateETHAddress,
+        code: 100
       },
       publicUri: {
         message: 'Public URI (leave empty for private nodes):',
         validate: validatePublicUri,
-        skip: argv.privateNode
+        skip: argv.privateNode,
+        code: 101
       },
       authKey: {
         message: 'Auth key (leave empty for new nodes):',
-        validate: validateHMAC
+        validate: validateHMAC,
+        code: 102
       }
     }
 
@@ -79,7 +82,7 @@ module.exports = {
       try {
         config[key] = fields[key].validate(argv[key])
       } catch (err) {
-        error(err, 10)
+        error(err, fields[key].code)
       }
     }
 
