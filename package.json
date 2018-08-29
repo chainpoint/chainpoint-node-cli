@@ -1,0 +1,36 @@
+{
+  "name": "chainpoint-node-cli",
+  "version": "0.1.0",
+  "description": "Chainpoint node CLI",
+  "bin": {
+    "chp-node": "./index.js"
+  },
+  "scripts": {
+    "build": "npm run build:clean && pkg . --targets node8-macos-x64,node8-linux-x64,node8-linux-x86,node8-alpine-x64 --out-path ./build/",
+    "build:clean": "rimraf ./build/*"
+  },
+  "keywords": [
+    "chainpoint",
+    "node",
+    "management",
+    "configuration"
+  ],
+  "author": "Philippe Schommers <philippe@schommers.be>",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/filoozom/chainpoint-node-cli",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "inquirer": "^6.2.0",
+    "ip": "^1.1.5",
+    "log-symbols": "^2.2.0",
+    "yargs": "^12.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.4.0",
+    "eslint-config-prettier": "^3.0.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "pkg": "^4.3.4",
+    "prettier": "^1.14.2",
+    "rimraf": "^2.6.2"
+  }
+}
