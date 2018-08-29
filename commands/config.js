@@ -89,6 +89,7 @@ module.exports = {
     ]
       .filter(line => !!line)
       .join(EOL)
+      .concat(EOL)
 
     try {
       fs.writeFileSync(path.join(process.cwd(), '.env'), env)
@@ -102,7 +103,7 @@ module.exports = {
       try {
         fs.writeFileSync(
           path.join(process.cwd(), 'keys', `${config.tntAddr}.key`),
-          config.authKey
+          config.authKey + EOL
         )
         info('Wrote auth key')
       } catch (err) {
