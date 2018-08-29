@@ -7,7 +7,7 @@
   "parserOptions": {
     "ecmaVersion": 2018
   },
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "mocha"],
   "rules": {
     "prettier/prettier": "error",
     "linebreak-style": ["error", "unix"],
@@ -18,6 +18,9 @@
         "properties": "never",
         "ignoreDestructuring": true
       }
-    ]
+    ],
+    "mocha/no-exclusive-tests": "error",
+    "mocha/prefer-arrow-callback": "error",
+    "mocha/handle-done-callback": "error"
   }
 }
