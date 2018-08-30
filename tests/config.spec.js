@@ -31,7 +31,7 @@ describe('config', () => {
       function checkIncorrectTntAddress(message, address) {
         it(message, async () => {
           try {
-            await runCommand('config', '--no-prompt', '--tnt-addr', address)
+            await runCommand(['config', '--no-prompt', '--tnt-addr', address])
           } catch (err) {
             err.code.should.equal(100)
             return
@@ -53,14 +53,14 @@ describe('config', () => {
       function checkIncorrectPublicUri(message, uri) {
         it(message, async () => {
           try {
-            await runCommand(
+            await runCommand([
               'config',
               '--no-prompt',
               '--tnt-addr',
               TNT_ADDR,
               '--public-uri',
               uri
-            )
+            ])
           } catch (err) {
             err.code.should.equal(101)
             return
@@ -92,14 +92,14 @@ describe('config', () => {
       function checkIncorrectAuthKey(message, key) {
         it(message, async () => {
           try {
-            await runCommand(
+            await runCommand([
               'config',
               '--no-prompt',
               '--tnt-addr',
               TNT_ADDR,
               '--auth-key',
               key
-            )
+            ])
           } catch (err) {
             err.code.should.equal(102)
             return
@@ -120,7 +120,7 @@ describe('config', () => {
   describe('success', () => {
     it('should create an .env file with only the TNT address', async () => {
       try {
-        await runCommand('config', '--no-prompt', '--tnt-addr', TNT_ADDR)
+        await runCommand(['config', '--no-prompt', '--tnt-addr', TNT_ADDR])
       } catch (err) {
         should.not.exist(err)
       }
@@ -132,14 +132,14 @@ describe('config', () => {
 
     it('should create an .env file with the TNT address and the public URI', async () => {
       try {
-        await runCommand(
+        await runCommand([
           'config',
           '--no-prompt',
           '--tnt-addr',
           TNT_ADDR,
           '--public-uri',
           PUBLIC_URI
-        )
+        ])
       } catch (err) {
         should.not.exist(err)
       }
@@ -152,14 +152,14 @@ describe('config', () => {
 
     it('should create an a file in the keys directory with the name of the TNT address', async () => {
       try {
-        await runCommand(
+        await runCommand([
           'config',
           '--no-prompt',
           '--tnt-addr',
           TNT_ADDR,
           '--auth-key',
           AUTH_KEY
-        )
+        ])
       } catch (err) {
         should.not.exist(err)
       }

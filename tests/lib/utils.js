@@ -14,8 +14,8 @@ function readEnv() {
   return dotenv.parse(fs.readFileSync(ENV_PATH))
 }
 
-async function runCommand(...args) {
-  return execFile('node', ['index.js', ...args])
+async function runCommand(args, options) {
+  return execFile('node', ['index.js', ...args], options)
 }
 
 // Exports
