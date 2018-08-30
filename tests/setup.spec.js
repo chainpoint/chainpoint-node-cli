@@ -28,9 +28,12 @@ describe('setup', () => {
     // --no-swap: doesn't work on Travis
     // --no-check-os: Travis is on Ubuntu 14.04
     try {
-      const command = spawnCommand(['setup', '--no-swap', '--no-check-os'], {
-        cwd: process.env.TRAVIS_BUILD_DIR
-      })
+      const command = spawnCommand(
+        ['setup', '--no-upgrade', '--no-swap', '--no-check-os'],
+        {
+          cwd: process.env.TRAVIS_BUILD_DIR
+        }
+      )
 
       if (showDebug('test:setup')) {
         command.stdout.pipe(process.stdout)
