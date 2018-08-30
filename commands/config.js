@@ -1,6 +1,7 @@
 // Dependencies
 const fs = require('fs')
 const path = require('path')
+const rp = require('request-promise-native')
 const { prompt } = require('inquirer')
 const { EOL } = require('os')
 
@@ -24,6 +25,10 @@ function inquirerValidate(validator) {
   }
 }
 
+async function findIP() {
+  return `http://${(await rp('https://icanhazip.com/')).trim()}`
+}
+
 // Command
 module.exports = {
   command: 'config',
@@ -35,7 +40,8 @@ module.exports = {
     },
     'public-uri': {
       description: 'Public URI',
-      type: 'string'
+      type: 'string',
+      default: 'automatic'
     },
     'auth-key': {
       description: 'Authentication key',
@@ -49,6 +55,12 @@ module.exports = {
   },
 
   async handler(argv) {
+    let publicUriDefault
+    if (argv.publicUri === 'automatic') {
+      delete argv.publicUri
+      publicUriDefault = await findIP()
+    }
+
     const config = {}
     const fields = {
       tntAddr: {
@@ -60,7 +72,8 @@ module.exports = {
         message: 'Public URI (leave empty for private nodes):',
         validate: validatePublicUri,
         skip: argv.privateNode,
-        code: 101
+        code: 101,
+        default: publicUriDefault
       },
       authKey: {
         message: 'Auth key (leave empty for new nodes):',
@@ -74,6 +87,7 @@ module.exports = {
         const { answer } = await prompt({
           name: 'answer',
           message: fields[key].message,
+          default: fields[key].default,
           validate: inquirerValidate(fields[key].validate)
         })
         argv[key] = answer
