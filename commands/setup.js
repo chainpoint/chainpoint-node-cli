@@ -67,6 +67,16 @@ module.exports = {
       description: 'Clone git repository (advanced)',
       type: 'boolean',
       default: true
+    },
+    upgrade: {
+      description: 'Update and upgrade all packages (advanced)',
+      type: 'boolean',
+      default: true
+    },
+    'install-dependencies': {
+      description: 'Install dependencies (advanced)',
+      type: 'boolean',
+      default: true
     }
   },
 
@@ -110,6 +120,29 @@ module.exports = {
       spinner.warn(
         'You might be running this command on an unsupported operating system'
       )
+    }
+
+    // Upgrade packages
+    if (argv.upgrade) {
+      spinner.start('Upgrading packages')
+
+      const command = sudoBash(`
+        apt update
+        apt upgrade -y
+      `)
+
+      bashSpinner(spinner, command, 'Package upgrade')
+    }
+
+    // Install basic dependencies
+    if (argv.installDependencies) {
+      spinner.start('Installing basic dependencies')
+
+      const command = sudoBash(`
+        apt install curl
+      `)
+
+      bashSpinner(spinner, command, 'Basic dependencies installation')
     }
 
     // Install Docker
