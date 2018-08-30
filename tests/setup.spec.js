@@ -39,6 +39,13 @@ describe('setup', () => {
     fs.existsSync(NODE_PATH).should.be.true
     fs.existsSync(LOCK_FILE).should.be.true
 
+    // Check if Docker is available
+    try {
+      await execFile('which', ['docker'])
+    } catch (err) {
+      should.not.exist(err)
+    }
+
     // Check that Docker Compose is available and
     // that the git repository was cloned successfully
     let command
