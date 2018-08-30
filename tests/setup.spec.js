@@ -12,7 +12,7 @@ const { runCommand } = require('./lib/utils')
 // Tests
 describe('setup', () => {
   it('should work for simple Travis test', async function() {
-    if (process.env.TRAVIS !== true) {
+    if (process.env.TRAVIS !== 'true') {
       this.skip()
       return
     }
