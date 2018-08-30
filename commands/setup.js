@@ -7,7 +7,7 @@ const os = require('os')
 const shell = require('shelljs')
 
 // Utils
-const config = require('./utils/config')
+const config = require('../utils/config')
 
 // Data
 const LOCK_FILE = '/.chainpoint-installer-run'
