@@ -8,6 +8,7 @@ const { error } = require('./utils/terminal')
 
 // Commands
 const config = require('./commands/config')
+const setup = require('./commands/setup')
 
 // Basic test to check if the current working directory is a Chainpoint node
 if (!fs.existsSync(path.join(process.cwd(), 'keys'))) {
@@ -17,6 +18,7 @@ if (!fs.existsSync(path.join(process.cwd(), 'keys'))) {
 // Script
 yargs
   .command(config)
+  .command(setup)
   .help()
   .alias('h', 'help')
   .demandCommand()

@@ -38,15 +38,17 @@
   "repository": "https://github.com/filoozom/chainpoint-node-cli",
   "dependencies": {
     "chalk": "^2.4.1",
+    "dotenv": "^6.0.0",
     "inquirer": "^6.2.0",
     "ip": "^1.1.5",
     "log-symbols": "^2.2.0",
+    "ora": "^3.0.0",
+    "shelljs": "^0.8.2",
     "yargs": "^12.0.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
-    "dotenv": "^6.0.0",
     "eslint": "^5.4.0",
     "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-mocha": "^5.2.0",
