@@ -20,7 +20,10 @@ function sudoBash(command) {
       set -e
       ${command}
     EOF`.replace(/^\s+/gm, ''),
-    { shell: '/bin/bash' }
+    {
+      shell: '/bin/bash',
+      silent: true
+    }
   )
 }
 
@@ -139,7 +142,7 @@ module.exports = {
       spinner.start('Installing basic dependencies')
 
       const command = sudoBash(`
-        apt install curl
+        apt install -y curl
       `)
 
       bashSpinner(spinner, command, 'Basic dependencies installation')
