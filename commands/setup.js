@@ -17,7 +17,7 @@ function sudoBash(command) {
     `sudo bash <<EOF
       set -e
       ${command}
-    EOF`,
+    EOF`.replace(/^\s+/gm, ''),
     { shell: '/bin/bash' }
   )
 }
