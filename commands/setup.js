@@ -113,8 +113,6 @@ module.exports = {
       spinner.start('Installing Docker')
 
       const command = sudoBash(`
-        set -e
-
         # Install Docker
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
         add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
@@ -177,7 +175,7 @@ module.exports = {
 
     // Create lock file
     if (argv.lockFile) {
-      shell.exec(`sudo touch ${LOCK_FILE}`)
+      sudoBash(`touch ${LOCK_FILE}`)
     }
   }
 }
