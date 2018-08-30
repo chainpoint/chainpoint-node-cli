@@ -27,5 +27,5 @@ describe('setup', () => {
     } catch (err) {
       should.not.exist(err)
     }
-  })
+  }).timeout(300000)
 })
