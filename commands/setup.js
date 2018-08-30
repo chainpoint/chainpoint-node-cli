@@ -7,7 +7,8 @@ const os = require('os')
 const shell = require('shelljs')
 
 // Data
-const LOCK_FILE = path.join(os.homedir(), '.chainpoint-installer-run')
+const LOCK_FILE = '/.chainpoint-installer-run'
+const NODE_PATH = path.join(os.homedir(), 'chainpoint-node')
 
 // Functions
 function sudoBash(command) {
@@ -144,11 +145,15 @@ module.exports = {
     if (argv.cloneGit) {
       spinner.start('Cloning git repository')
 
-      const command = sudoBash(
-        'git clone -b master https://github.com/chainpoint/chainpoint-node ~/chainpoint-node'
-      )
+      if (fs.existsSync(NODE_PATH)) {
+        spinner.warn('Git repository already exists, skipping...')
+      } else {
+        const command = sudoBash(
+          `git clone -b master https://github.com/chainpoint/chainpoint-node ${NODE_PATH}`
+        )
 
-      bashSpinner(spinner, command, 'Git repository clone')
+        bashSpinner(spinner, command, 'Git repository clone')
+      }
     }
 
     // Create swap
