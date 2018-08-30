@@ -58,5 +58,5 @@ describe('setup', () => {
     }
 
     ;/container_name: chainpoint-node/g.test(command.stdout).should.be.true
-  }).timeout(300000)
+  }).timeout(600000)
 })
