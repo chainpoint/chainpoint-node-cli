@@ -13,7 +13,7 @@ const should = chai.should()
 
 // Utils
 const { LOCK_FILE, NODE_PATH } = require('./lib/config')
-const { runCommand } = require('./lib/utils')
+const { showDebug, spawnCommand } = require('./lib/utils')
 
 // Tests
 describe('setup', () => {
@@ -28,8 +28,24 @@ describe('setup', () => {
     // --no-swap: doesn't work on Travis
     // --no-check-os: Travis is on Ubuntu 14.04
     try {
-      await runCommand(['setup', '--no-swap', '--no-check-os'], {
+      const command = spawnCommand(['setup', '--no-swap', '--no-check-os'], {
         cwd: process.env.TRAVIS_BUILD_DIR
+      })
+
+      if (showDebug('test:setup')) {
+        command.stdout.pipe(process.stdout)
+        command.stderr.pipe(process.stderr)
+      }
+
+      await new Promise((resolve, reject) => {
+        command.on('close', code => {
+          if (code !== 0) {
+            reject(new Error(`Exited with code ${code}`))
+            return
+          }
+
+          resolve()
+        })
       })
     } catch (err) {
       should.not.exist(err)

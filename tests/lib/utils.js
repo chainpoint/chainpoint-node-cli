@@ -5,6 +5,7 @@ const fs = require('fs')
 const util = require('util')
 
 const execFile = util.promisify(childProcess.execFile)
+const { spawn } = childProcess
 
 // Utils
 const { ENV_PATH } = require('./config')
@@ -14,12 +15,18 @@ function readEnv() {
   return dotenv.parse(fs.readFileSync(ENV_PATH))
 }
 
-async function runCommand(args, options) {
-  return execFile('node', ['index.js', ...args], options)
+function command(type, args, options) {
+  return type('node', ['index.js', ...args], options)
+}
+
+function showDebug(name) {
+  return (process.env.DEBUG || '').split(' ').includes(name)
 }
 
 // Exports
 module.exports = {
   readEnv,
-  runCommand
+  execCommand: command.bind(null, execFile),
+  spawnCommand: command.bind(null, spawn),
+  showDebug
 }

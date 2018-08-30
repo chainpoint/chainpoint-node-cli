@@ -18,7 +18,7 @@ const {
   PUBLIC_URI,
   TNT_ADDR
 } = require('./lib/config')
-const { readEnv, runCommand } = require('./lib/utils')
+const { readEnv, execCommand } = require('./lib/utils')
 
 // Hooks
 beforeEach(() => fs.mkdirp(KEYS_PATH))
@@ -31,7 +31,7 @@ describe('config', () => {
       function checkIncorrectTntAddress(message, address) {
         it(message, async () => {
           try {
-            await runCommand(['config', '--no-prompt', '--tnt-addr', address])
+            await execCommand(['config', '--no-prompt', '--tnt-addr', address])
           } catch (err) {
             err.code.should.equal(100)
             return
@@ -53,7 +53,7 @@ describe('config', () => {
       function checkIncorrectPublicUri(message, uri) {
         it(message, async () => {
           try {
-            await runCommand([
+            await execCommand([
               'config',
               '--no-prompt',
               '--tnt-addr',
@@ -92,7 +92,7 @@ describe('config', () => {
       function checkIncorrectAuthKey(message, key) {
         it(message, async () => {
           try {
-            await runCommand([
+            await execCommand([
               'config',
               '--no-prompt',
               '--tnt-addr',
@@ -120,7 +120,7 @@ describe('config', () => {
   describe('success', () => {
     it('should create an .env file with only the TNT address', async () => {
       try {
-        await runCommand(['config', '--no-prompt', '--tnt-addr', TNT_ADDR])
+        await execCommand(['config', '--no-prompt', '--tnt-addr', TNT_ADDR])
       } catch (err) {
         should.not.exist(err)
       }
@@ -132,7 +132,7 @@ describe('config', () => {
 
     it('should create an .env file with the TNT address and the public URI', async () => {
       try {
-        await runCommand([
+        await execCommand([
           'config',
           '--no-prompt',
           '--tnt-addr',
@@ -152,7 +152,7 @@ describe('config', () => {
 
     it('should create an a file in the keys directory with the name of the TNT address', async () => {
       try {
-        await runCommand([
+        await execCommand([
           'config',
           '--no-prompt',
           '--tnt-addr',
