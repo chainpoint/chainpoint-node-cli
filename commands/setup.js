@@ -1,11 +1,13 @@
 // Dependencies
-const config = require('config')
 const dotenv = require('dotenv')
 const fs = require('fs')
 const path = require('path')
 const ora = require('ora')
 const os = require('os')
 const shell = require('shelljs')
+
+// Utils
+const config = require('./utils/config')
 
 // Data
 const LOCK_FILE = '/.chainpoint-installer-run'
@@ -135,9 +137,9 @@ module.exports = {
 
       const command = sudoBash(`
         mkdir -p /usr/local/bin
-        curl -s -L "https://github.com/docker/compose/releases/download/${config.get(
-          'setup.dockerCompose.version'
-        )}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        curl -s -L "https://github.com/docker/compose/releases/download/${
+          config.setup.dockerCompose.version
+        }/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         chmod +x /usr/local/bin/docker-compose
       `)
 
