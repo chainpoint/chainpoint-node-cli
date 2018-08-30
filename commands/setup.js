@@ -142,7 +142,7 @@ module.exports = {
       spinner.start('Installing basic dependencies')
 
       const command = sudoBash(`
-        apt install -y curl
+        apt install -y curl software-properties-common apt-transport-https
       `)
 
       bashSpinner(spinner, command, 'Basic dependencies installation')
