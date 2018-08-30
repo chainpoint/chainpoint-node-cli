@@ -55,6 +55,12 @@ module.exports = {
   },
 
   async handler(argv) {
+    // Basic test to check if the current working directory is a Chainpoint node
+    if (!fs.existsSync(path.join(process.cwd(), 'keys'))) {
+      error('The current working directory is not a Chainpoint node', 1)
+    }
+
+    // Get public URI automatically (only as default for the prompt)
     let publicUriDefault
     if (argv.publicUri === 'automatic') {
       delete argv.publicUri
