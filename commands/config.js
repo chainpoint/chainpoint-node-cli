@@ -9,6 +9,7 @@ const { EOL } = require('os')
 const { error, info, success } = require('../utils/terminal')
 const {
   validateETHAddress,
+  validatePassword,
   validatePublicUri,
   validateHMAC
 } = require('../utils/validate')
@@ -45,6 +46,10 @@ module.exports = {
     },
     'auth-key': {
       description: 'Authentication key',
+      type: 'string'
+    },
+    password: {
+      description: 'Set the password to log into the UI',
       type: 'string'
     },
     prompt: {
@@ -85,6 +90,12 @@ module.exports = {
         message: 'Auth key (leave empty for new nodes):',
         validate: validateHMAC,
         code: 102
+      },
+      password: {
+        message:
+          'Password (leave empty to use the TNT address, enter "false" to make the UI public):',
+        validate: validatePassword,
+        code: 103
       }
     }
 
@@ -108,7 +119,8 @@ module.exports = {
 
     const env = [
       `NODE_TNT_ADDRESS=${config.tntAddr}`,
-      config.publicUri && `CHAINPOINT_NODE_PUBLIC_URI=${config.publicUri}`
+      config.publicUri && `CHAINPOINT_NODE_PUBLIC_URI=${config.publicUri}`,
+      config.password && `CHAINPOINT_NODE_UI_PASSWORD=${config.password}`
     ]
       .filter(line => !!line)
       .join(EOL)

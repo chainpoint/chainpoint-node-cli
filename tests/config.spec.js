@@ -15,6 +15,7 @@ const {
   AUTH_KEY,
   ENV_PATH,
   KEYS_PATH,
+  PASSWORD,
   PUBLIC_URI,
   TNT_ADDR
 } = require('./lib/config')
@@ -115,6 +116,38 @@ describe('config', () => {
         new Array(65).join('z')
       )
     })
+
+    describe('password (code 103)', () => {
+      function checkPassword(message, password, isValid = false) {
+        it(message, async () => {
+          try {
+            await execCommand([
+              'config',
+              '--no-prompt',
+              '--tnt-addr',
+              TNT_ADDR,
+              '--password',
+              password
+            ])
+          } catch (err) {
+            if (isValid) {
+              should.not.exist(err)
+            } else {
+              err.code.should.equal(103)
+            }
+            return
+          }
+
+          if (!isValid) {
+            throw new Error('Should have thrown an error')
+          }
+        })
+      }
+
+      checkPassword('should exit if it uses non alphanumeric characters', '$')
+      checkPassword('should not exit if is "false"', 'false', true)
+      checkPassword('should not exit if is empty', '', true)
+    })
   })
 
   describe('success', () => {
@@ -147,6 +180,26 @@ describe('config', () => {
       readEnv().should.deep.equal({
         NODE_TNT_ADDRESS: TNT_ADDR,
         CHAINPOINT_NODE_PUBLIC_URI: PUBLIC_URI
+      })
+    })
+
+    it('should create an .env file with the TNT address and the password', async () => {
+      try {
+        await execCommand([
+          'config',
+          '--no-prompt',
+          '--tnt-addr',
+          TNT_ADDR,
+          '--password',
+          PASSWORD
+        ])
+      } catch (err) {
+        should.not.exist(err)
+      }
+
+      readEnv().should.deep.equal({
+        NODE_TNT_ADDRESS: TNT_ADDR,
+        CHAINPOINT_NODE_UI_PASSWORD: PASSWORD
       })
     })
 

@@ -12,6 +12,15 @@ function validateETHAddress(address) {
   return address.toLowerCase()
 }
 
+function validatePassword(password) {
+  // 'false' is matched by the regex too
+  if (password && !/^[a-zA-Z0-9]*$/.test(password)) {
+    throw new Error('The password should only contain alphanumeric characters')
+  }
+
+  return password
+}
+
 function validatePublicUri(uri) {
   if (!uri) {
     return
@@ -59,6 +68,7 @@ function validateHMAC(hmac) {
 // Exports
 module.exports = {
   validateETHAddress,
+  validatePassword,
   validatePublicUri,
   validateHMAC
 }
