@@ -151,82 +151,110 @@ describe('config', () => {
   })
 
   describe('success', () => {
-    it('should create an .env file with only the TNT address', async () => {
-      try {
-        await execCommand(['config', '--no-prompt', '--tnt-addr', TNT_ADDR])
-      } catch (err) {
-        should.not.exist(err)
-      }
+    describe('flags', () => {
+      it('should create an .env file with only the TNT address', async () => {
+        try {
+          await execCommand(['config', '--no-prompt', '--tnt-addr', TNT_ADDR])
+        } catch (err) {
+          should.not.exist(err)
+        }
 
-      readEnv().should.deep.equal({
-        NODE_TNT_ADDRESS: TNT_ADDR
+        readEnv().should.deep.equal({
+          NODE_TNT_ADDRESS: TNT_ADDR
+        })
+      })
+
+      it('should create an .env file with the TNT address and the public URI', async () => {
+        try {
+          await execCommand([
+            'config',
+            '--no-prompt',
+            '--tnt-addr',
+            TNT_ADDR,
+            '--public-uri',
+            PUBLIC_URI
+          ])
+        } catch (err) {
+          should.not.exist(err)
+        }
+
+        readEnv().should.deep.equal({
+          NODE_TNT_ADDRESS: TNT_ADDR,
+          CHAINPOINT_NODE_PUBLIC_URI: PUBLIC_URI
+        })
+      })
+
+      it('should create an .env file with the TNT address and the password', async () => {
+        try {
+          await execCommand([
+            'config',
+            '--no-prompt',
+            '--tnt-addr',
+            TNT_ADDR,
+            '--password',
+            PASSWORD
+          ])
+        } catch (err) {
+          should.not.exist(err)
+        }
+
+        readEnv().should.deep.equal({
+          NODE_TNT_ADDRESS: TNT_ADDR,
+          CHAINPOINT_NODE_UI_PASSWORD: PASSWORD
+        })
+      })
+
+      it('should create an a file in the keys directory with the name of the TNT address', async () => {
+        try {
+          await execCommand([
+            'config',
+            '--no-prompt',
+            '--tnt-addr',
+            TNT_ADDR,
+            '--auth-key',
+            AUTH_KEY
+          ])
+        } catch (err) {
+          should.not.exist(err)
+        }
+
+        let authKey
+        try {
+          authKey = fs.readFileSync(
+            path.join(KEYS_PATH, `${TNT_ADDR}.key`),
+            'utf8'
+          )
+        } catch (err) {
+          should.not.exist(err)
+        }
+        authKey.trim().should.equal(AUTH_KEY)
       })
     })
 
-    it('should create an .env file with the TNT address and the public URI', async () => {
-      try {
-        await execCommand([
-          'config',
-          '--no-prompt',
-          '--tnt-addr',
-          TNT_ADDR,
-          '--public-uri',
-          PUBLIC_URI
-        ])
-      } catch (err) {
-        should.not.exist(err)
-      }
+    describe('env', () => {
+      it('should create an a file in the keys directory with the name of the TNT address', async () => {
+        try {
+          await execCommand(['config', '--no-prompt', '--env'], {
+            env: {
+              CHAINPOINT_NODE_TNT_ADDRESS: TNT_ADDR,
+              CHAINPOINT_NODE_AUTH_KEY: AUTH_KEY
+            }
+          })
+        } catch (err) {
+          should.not.exist(err)
+        }
 
-      readEnv().should.deep.equal({
-        NODE_TNT_ADDRESS: TNT_ADDR,
-        CHAINPOINT_NODE_PUBLIC_URI: PUBLIC_URI
+        let authKey
+        try {
+          authKey = fs.readFileSync(
+            path.join(KEYS_PATH, `${TNT_ADDR}.key`),
+            'utf8'
+          )
+        } catch (err) {
+          should.not.exist(err)
+        }
+        authKey.trim().should.equal(AUTH_KEY)
       })
-    })
-
-    it('should create an .env file with the TNT address and the password', async () => {
-      try {
-        await execCommand([
-          'config',
-          '--no-prompt',
-          '--tnt-addr',
-          TNT_ADDR,
-          '--password',
-          PASSWORD
-        ])
-      } catch (err) {
-        should.not.exist(err)
-      }
-
-      readEnv().should.deep.equal({
-        NODE_TNT_ADDRESS: TNT_ADDR,
-        CHAINPOINT_NODE_UI_PASSWORD: PASSWORD
-      })
-    })
-
-    it('should create an a file in the keys directory with the name of the TNT address', async () => {
-      try {
-        await execCommand([
-          'config',
-          '--no-prompt',
-          '--tnt-addr',
-          TNT_ADDR,
-          '--auth-key',
-          AUTH_KEY
-        ])
-      } catch (err) {
-        should.not.exist(err)
-      }
-
-      let authKey
-      try {
-        authKey = fs.readFileSync(
-          path.join(KEYS_PATH, `${TNT_ADDR}.key`),
-          'utf8'
-        )
-      } catch (err) {
-        should.not.exist(err)
-      }
-      authKey.trim().should.equal(AUTH_KEY)
     })
   })
 })

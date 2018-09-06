@@ -55,6 +55,11 @@ module.exports = {
       description: 'Prompt in case of missing configuration',
       type: 'boolean',
       default: true
+    },
+    env: {
+      description: 'Configure the node based on environment variables',
+      type: 'boolean',
+      default: false
     }
   },
 
@@ -62,6 +67,17 @@ module.exports = {
     // Basic test to check if the current working directory is a Chainpoint node
     if (!fs.existsSync(path.join(process.cwd(), 'keys'))) {
       error('The current working directory is not a Chainpoint node', 1)
+    }
+
+    // Configure based on environment variables
+    if (argv.env) {
+      argv = {
+        ...argv,
+        tntAddr: process.env.CHAINPOINT_NODE_TNT_ADDRESS,
+        publicUri: process.env.CHAINPOINT_NODE_PUBLIC_URI,
+        authKey: process.env.CHAINPOINT_NODE_AUTH_KEY,
+        password: process.env.CHAINPOINT_NODE_UI_PASSWORD
+      }
     }
 
     const config = {}
@@ -88,6 +104,11 @@ module.exports = {
           'Password (leave empty to use the TNT address, enter "false" to make the UI public):',
         validate: validatePassword,
         code: 103
+      },
+      env: {
+        description: 'Configure the node based on environment variables',
+        type: 'boolean',
+        default: false
       }
     }
 
