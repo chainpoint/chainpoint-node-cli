@@ -41,8 +41,7 @@ module.exports = {
     },
     'public-uri': {
       description: 'Public URI',
-      type: 'string',
-      default: 'automatic'
+      type: 'string'
     },
     'auth-key': {
       description: 'Authentication key',
@@ -65,13 +64,6 @@ module.exports = {
       error('The current working directory is not a Chainpoint node', 1)
     }
 
-    // Get public URI automatically (only as default for the prompt)
-    let publicUriDefault
-    if (argv.publicUri === 'automatic') {
-      delete argv.publicUri
-      publicUriDefault = await findIP()
-    }
-
     const config = {}
     const fields = {
       tntAddr: {
@@ -84,7 +76,7 @@ module.exports = {
         validate: validatePublicUri,
         skip: argv.privateNode,
         code: 101,
-        default: publicUriDefault
+        default: argv.prompt && (await findIP())
       },
       authKey: {
         message: 'Auth key (leave empty for new nodes):',
