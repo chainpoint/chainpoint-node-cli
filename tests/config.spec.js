@@ -236,6 +236,7 @@ describe('config', () => {
         try {
           await execCommand(['config', '--no-prompt', '--env'], {
             env: {
+              ...process.env,
               CHAINPOINT_NODE_TNT_ADDRESS: TNT_ADDR,
               CHAINPOINT_NODE_AUTH_KEY: AUTH_KEY
             }
