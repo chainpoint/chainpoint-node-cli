@@ -26,7 +26,7 @@ function showDebug(name) {
 
 function getCommandParams(type, config) {
   const args = ['config', '--no-prompt']
-  const options = { env: {} }
+  const options = { env: process.env }
   const envKeys = {
     tntAddr: 'CHAINPOINT_NODE_TNT_ADDRESS',
     password: 'CHAINPOINT_NODE_UI_PASSWORD'
