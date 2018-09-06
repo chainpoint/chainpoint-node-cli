@@ -19,7 +19,7 @@ const {
   PUBLIC_URI,
   TNT_ADDR
 } = require('./lib/config')
-const { readEnv, execCommand } = require('./lib/utils')
+const { readEnv, execCommand, getCommandParams } = require('./lib/utils')
 
 // Hooks
 beforeEach(() => fs.mkdirp(KEYS_PATH))
@@ -151,10 +151,12 @@ describe('config', () => {
   })
 
   describe('success', () => {
-    describe('flags', () => {
+    function successTests(type) {
+      const params = getCommandParams.bind(null, type)
+
       it('should create an .env file with only the TNT address', async () => {
         try {
-          await execCommand(['config', '--no-prompt', '--tnt-addr', TNT_ADDR])
+          await execCommand(...params({ tntAddr: TNT_ADDR }))
         } catch (err) {
           should.not.exist(err)
         }
@@ -164,56 +166,29 @@ describe('config', () => {
         })
       })
 
-      it('should create an .env file with the TNT address and the public URI', async () => {
+      it('should create a complete .env file', async () => {
         try {
-          await execCommand([
-            'config',
-            '--no-prompt',
-            '--tnt-addr',
-            TNT_ADDR,
-            '--public-uri',
-            PUBLIC_URI
-          ])
+          await execCommand(
+            ...params({
+              tntAddr: TNT_ADDR,
+              publicUri: PUBLIC_URI,
+              password: PASSWORD
+            })
+          )
         } catch (err) {
           should.not.exist(err)
         }
 
         readEnv().should.deep.equal({
           NODE_TNT_ADDRESS: TNT_ADDR,
-          CHAINPOINT_NODE_PUBLIC_URI: PUBLIC_URI
-        })
-      })
-
-      it('should create an .env file with the TNT address and the password', async () => {
-        try {
-          await execCommand([
-            'config',
-            '--no-prompt',
-            '--tnt-addr',
-            TNT_ADDR,
-            '--password',
-            PASSWORD
-          ])
-        } catch (err) {
-          should.not.exist(err)
-        }
-
-        readEnv().should.deep.equal({
-          NODE_TNT_ADDRESS: TNT_ADDR,
+          CHAINPOINT_NODE_PUBLIC_URI: PUBLIC_URI,
           CHAINPOINT_NODE_UI_PASSWORD: PASSWORD
         })
       })
 
       it('should create an a file in the keys directory with the name of the TNT address', async () => {
         try {
-          await execCommand([
-            'config',
-            '--no-prompt',
-            '--tnt-addr',
-            TNT_ADDR,
-            '--auth-key',
-            AUTH_KEY
-          ])
+          await execCommand(...params({ tntAddr: TNT_ADDR, authKey: AUTH_KEY }))
         } catch (err) {
           should.not.exist(err)
         }
@@ -229,33 +204,9 @@ describe('config', () => {
         }
         authKey.trim().should.equal(AUTH_KEY)
       })
-    })
+    }
 
-    describe('env', () => {
-      it('should create an a file in the keys directory with the name of the TNT address', async () => {
-        try {
-          await execCommand(['config', '--no-prompt', '--env'], {
-            env: {
-              ...process.env,
-              CHAINPOINT_NODE_TNT_ADDRESS: TNT_ADDR,
-              CHAINPOINT_NODE_AUTH_KEY: AUTH_KEY
-            }
-          })
-        } catch (err) {
-          should.not.exist(err)
-        }
-
-        let authKey
-        try {
-          authKey = fs.readFileSync(
-            path.join(KEYS_PATH, `${TNT_ADDR}.key`),
-            'utf8'
-          )
-        } catch (err) {
-          should.not.exist(err)
-        }
-        authKey.trim().should.equal(AUTH_KEY)
-      })
-    })
+    describe('flags', () => successTests('flags'))
+    describe('env', () => successTests('env'))
   })
 })
