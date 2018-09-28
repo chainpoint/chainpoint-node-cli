@@ -104,11 +104,6 @@ module.exports = {
           'Password (leave empty to use the TNT address, enter "false" to make the UI public):',
         validate: validatePassword,
         code: 103
-      },
-      env: {
-        description: 'Configure the node based on environment variables',
-        type: 'boolean',
-        default: false
       }
     }
 
