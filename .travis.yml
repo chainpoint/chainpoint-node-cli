@@ -1,24 +1,20 @@
 language: node_js
 node_js:
-  - '8'
-
+- '8'
 sudo: required
-
 before_deploy: npm run build
 deploy:
   provider: releases
   api_key:
-    secure: "s0V5I0ycbj77xFvrX1jnZU+Lg66afcxcVyXzmHHwR1vNKPGbRP9nRBHwK7wEvD99HiYXRcEs2w7H9fFVf+/BTpujdD5GudPjkiIbCl7BXuFZGmvYjuLO4lxtQHN3Tc2VnmEvzZeMbWNsAmT0+dnzeQNu8AVSM2wv4tIIUGFskj3PLWZoUiTBsO6LQ7YLrwZ8A+trF9TL8o55GwRDPBPNgJFRtbBYVkKunPhOQeMz+Dzz7CUFrjMkoj0Gef/QH+zuAmp9wyIqP8LvwTr1S1jKAK36gy7PpbO1bTX+fFsWusYbg9uGEAfs016J++9tqsJkAYkpCMW7POjgreDUOfx9intCLha1k32YXQaefonjYXb5Z+8QtHx3QU6ztRwg4hTvpavedaPF7NnudEQMPDRqxo58kf1sQvdvXJwcTbfjlP/j2V4cxeRllnwn1be8VlCtpkVfJ+8uiJo+UZmr4YFnB8DduYaKYoHC4BaqzN84q3WgqMCC+o+7qlt/48FvsVP+31LyAZMvwf4WhoSofw/yAH6PQjCySARnlTLQhKdR8NLMnpUNQUuSKDu2Phbvmt9/jnvbI27dMWZFodmPNjzfS0kHVWUMq8VI220Bu9U18gmt3I4okmv3+oD3Ju0fKRP4kEySfMjYdexrq4GtBuDcLdxfCJocL/uvswh/Lyt9Z8o="
+    secure: k1puuKeFUv3LvYIyNqZvXIWTcpr65jR6zhEkkDy+g+qcmNaBMDBGEIXVeY308gQP4f201x+V0GiMbnD9gW+AW1CP9fRvxbPE0rJGkph1pYTNp0XgUSF/aoGMQ90VacmWuwHu7xsFYZqZHJb2aecamHXvc5FoIJv2QKGotdS5i8jhDjg7m9fsyaIfOfWQkIjChIS67z8V3b1Ymnc6mQEU3l/pr/4HglghojspcfGT5UqJBlygzy7IWnpTc3G8GfYJ4bPCkYJ/qWcNCUBsoeJGa9NSUMRML7Zxmk6EBJiVaTDfKZlHyiQCC952T2uG9Gw8BChdWyLD75QSFDyKPEtBvnSrl+HCTQQ1aSFrOYpnCTMdJZV+7n2DJrrLbJLzGHa2Sco2OApTNiTjhtSjKgllXjKRMVDJ9hcWjAkIrxpgYbeqxYm5fRu0CyjsZtyuIt2JlVoEjlARigGQMICjQDpeQ8C0kVqvGT4uiW68F3PPUc2cZuIPElI10slSzZOouWE9Tud7MkTTfc8Gav397Jvn3zRWj1Cn1u3+U0rInVv+U4QHSN6ZYv4BKLqUB5uZ8ymLV47af1EJrbjaKfOPG6IbAMQBzrQ/hPN2AgJWIUln/Dtjm9QBETG74KJ5KVgSHoEE2lAGVVTu5AvZCgSsaHPuZiuJKlQXOKUtC0siVrO+uUg=
   file_glob: true
   file: build/*
   skip_cleanup: true
   on:
     tags: true
-
 branches:
   except:
-    - gh-pages
-
+  - gh-pages
 cache:
   directories:
-    - node_modules
+  - node_modules
