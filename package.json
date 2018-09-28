@@ -1,6 +1,6 @@
 {
   "name": "chainpoint-node-cli",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Chainpoint node CLI",
   "bin": {
     "chp-node": "./index.js"
