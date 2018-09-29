@@ -35,7 +35,7 @@
   ],
   "author": "Philippe Schommers <philippe@schommers.be>",
   "license": "Apache-2.0",
-  "repository": "https://github.com/filoozom/chainpoint-node-cli",
+  "repository": "https://github.com/chainpoint/chainpoint-node-cli",
   "dependencies": {
     "chalk": "^2.4.1",
     "dotenv": "^6.0.0",
