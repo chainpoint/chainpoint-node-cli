@@ -1,15 +1,15 @@
 {
   "name": "chainpoint-node-cli",
-  "version": "0.2.5",
-  "description": "Chainpoint node CLI",
+  "version": "0.2.6",
+  "description": "Chainpoint Node CLI",
   "bin": {
-    "chp-node": "./index.js"
+    "chainpoint-node": "./index.js"
   },
   "scripts": {
-    "build": "npm run build:clean && pkg . --targets node8-macos-x64,node8-linux-x64,node8-linux-x86,node8-alpine-x64 --out-path ./build/",
+    "build": "yarn run build:clean && pkg . --targets node8-macos-x64,node8-linux-x64,node8-linux-x86,node8-alpine-x64 --out-path ./build/",
     "build:clean": "rimraf ./build/*",
     "lint": "eslint **/*.js",
-    "test": "npm run lint && npm run mocha",
+    "test": "yarn run lint && yarn run mocha",
     "mocha": "mocha tests/ --recursive -R spec"
   },
   "husky": {

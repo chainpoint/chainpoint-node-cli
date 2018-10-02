@@ -7,7 +7,7 @@ const setup = require('./commands/setup')
 
 // Script
 yargs
-  .usage('Usage: chp-node <command> [options]')
+  .usage('Usage: chainpoint-node <command> [options]')
   .command(config)
   .command(setup)
   .help()
